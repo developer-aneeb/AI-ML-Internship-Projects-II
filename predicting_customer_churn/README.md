@@ -53,8 +53,8 @@ The pipeline uses the standard **Telco Customer Churn Dataset**.
 
 ---
 
-## 🔄 5. Machine Learning Workflow
-The engineering workflow is divided into modular, automated blocks:
+## 🔄 5. Methodology & Approach
+The machine learning methodology and engineering workflow are divided into modular, automated blocks:
 
 ```mermaid
 graph TD
@@ -102,7 +102,7 @@ We assess model quality using five core metrics to address the class imbalance (
 
 ---
 
-## 💡 8. Key Results & Findings
+## 💡 8. Key Results & Observations
 - **Target Imbalance**: Churn occurs in 26.5% of accounts. Optimizing for raw accuracy alone leads to a trivial classifier.
 - **Model Performance**: 
   - The tuned **Logistic Regression** and **Random Forest** models show competitive F1-scores around ~0.60 on the test set.
@@ -133,11 +133,10 @@ The Jupyter Notebook generates:
 
 ## 📂 11. Project Structure
 ```text
-predicting customer churn/
-│── predicting customer churn.ipynb  # Comprehensive ML Pipeline
+predicting_customer_churn/
+│── predicting-customer-churn.ipynb  # Comprehensive ML Pipeline
 │── README.md                        # Project Documentation
-│── telco_churn_pipeline/            # Serialized Artifact Folder
-│   └── telco_churn_pipeline.joblib  # Complete Production Model Pipeline
+│── telco_churn_pipeline.joblib      # Complete Production Model Pipeline
 ```
 
 ---
@@ -146,13 +145,13 @@ predicting customer churn/
 1.  **Clone the repository**:
     ```bash
     git clone https://github.com/developer-aneeb/AI-ML-Internship-Projects-II.git
-    cd "AI-ML-Internship-Projects-II/predicting customer churn"
+    cd "AI-ML-Internship-Projects-II/predicting_customer_churn"
     ```
 2. **Install Dependencies**:
     ```bash
     pip install numpy pandas matplotlib seaborn scikit-learn joblib kagglehub
     ```
-3. **Execute**: Open `predicting customer churn.ipynb` in your Jupyter environment or Kaggle and run all cells.
+3. **Execute**: Open `predicting-customer-churn.ipynb` in your Jupyter environment or Kaggle and run all cells.
 
 ---
 
