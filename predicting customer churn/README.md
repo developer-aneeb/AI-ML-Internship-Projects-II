@@ -1,141 +1,170 @@
-# 📈 Stock Price Prediction Pipeline: Short-Term Forecasts with `yfinance`
+# 📈 Telco Customer Churn Prediction Pipeline: Production-Ready Classification
 
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
 [![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-ML-orange?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
-[![yfinance](https://img.shields.io/badge/yfinance-API-yellow)](https://github.com/ranaroussi/yfinance)
 [![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-informational?logo=pandas&logoColor=white)](https://pandas.pydata.org/)
+[![Matplotlib](https://img.shields.io/badge/Matplotlib-Visualization-red)](https://matplotlib.org/)
+[![Joblib](https://img.shields.io/badge/Joblib-Serialization-green)](https://joblib.readthedocs.io/)
 
-> **"Bridging the gap between historical market data and predictive analytics using a robust machine learning pipeline for short-term stock price forecasting."**
+> **"Mitigating subscriber attrition in telecom services using a robust, end-to-end scikit-learn pipeline featuring stratified hyperparameter optimization and production-ready inference encapsulation."**
 
 ---
 
 ## 📖 1. Project Overview
-This project implements an end-to-end Machine Learning pipeline designed to predict the **next day's closing price** of a specific stock (defaulting to Apple Inc., ticker: `AAPL`). In the financial sector, short-term price forecasting is a critical component for algorithmic trading, risk management, and portfolio optimization.
+Customer churn, or the rate at which subscribers discontinue their services, is one of the most critical business metrics in the telecommunications industry. The cost of acquiring a new customer is estimated to be 5 to 25 times higher than retaining an existing one. Predicting churn allows companies to run targeted retention campaigns (offering custom contract deals, discounts, or support interventions) to high-risk subscribers before they transition.
 
-By leveraging the `yfinance` API, this project demonstrates the ability to ingest real-world financial time-series data, transform it into a structured format for regression modeling, and evaluate predictive accuracy against historical benchmarks.
+This project implements an end-to-end machine learning pipeline that ingests raw subscriber profiles, cleanses inconsistencies, conducts exploratory visual analysis, trains optimized classifiers (Logistic Regression and Random Forests), and outputs a serialized production-ready model artifact.
 
 ---
 
 ## 🎯 2. Task Objective
-The primary goal of this internship project was to:
-1. **Develop an automated data retrieval system** using the Yahoo Finance API.
-2. **Apply feature engineering** techniques to transform time-series data into a supervised learning problem.
-3. **Compare multiple regression architectures** (Linear vs. Ensemble) to identify the optimal predictor.
-4. **Export a production-ready model artifact** for future integration into financial dashboards.
+The primary engineering objectives of this project were to:
+1. **Build a robust and reusable preprocessing pipeline** using `ColumnTransformer` and `Pipeline` to prevent feature leakage and handle unseen data formats gracefully during inference.
+2. **Perform comparative modeling** between linear baselines (Logistic Regression) and non-linear ensembles (Random Forest Classifier).
+3. **Execute cross-validated hyperparameter optimization** using `GridSearchCV` to maximize target metrics under class imbalance.
+4. **Deploy production-readiness practices** by serializing the complete, un-preprocessed feature ingestion pipeline to a `.joblib` file and simulating live inference payloads.
 
 ---
 
 ## 📊 3. Dataset Section
-The data is dynamically fetched using the **yfinance** library, ensuring up-to-date analysis.
+The pipeline uses the standard **Telco Customer Churn Dataset**.
 
-| Feature | Description |
-| :--- | :--- |
-| **Open / Close** | Opening and closing prices for the trading day. |
-| **High / Low** | The day's price range. |
-| **Adj Close** | Adjusted closing price (accounting for splits/dividends). |
-| **Volume** | Total shares traded. |
-| **Lags (1, 3, 5)** | Engineered features representing historical price points. |
+### Feature Breakdown
+| Category | Attributes | Description |
+| :--- | :--- | :--- |
+| **Demographics** | `gender`, `SeniorCitizen`, `Partner`, `Dependents` | Subscriber personal information. |
+| **Services** | `PhoneService`, `MultipleLines`, `InternetService`, `OnlineSecurity`, `OnlineBackup`, `DeviceProtection`, `TechSupport`, `StreamingTV`, `StreamingMovies` | Subscribed features and connectivity types. |
+| **Account Info** | `tenure`, `Contract`, `PaperlessBilling`, `PaymentMethod`, `MonthlyCharges`, `TotalCharges` | Billing details, account age, and financial metrics. |
+| **Target Variable** | `Churn` | Binary indicator (1 = Churned, 0 = Retained). |
 
-- **Source**: Yahoo Finance API.
-- **Period**: 5 Years of daily historical data.
-- **Target Variable**: `Target_Next_Close` (Next day's closing price).
-- **Preprocessing**: Handling MultiIndex columns, timezone-naive conversions, and chronological sorting.
+- **Source**: Kaggle (blastchar/telco-customer-churn).
+- **Size**: 7,043 rows, 21 columns.
+- **Preprocessing Details**: Standardized column text spacing, converted string-formatted `TotalCharges` containing blanks (from new clients where `tenure == 0`) to `0.0`, mapped `Churn` targets to binary numeric values, and removed non-predictive identifiers (`customerID`).
 
 ---
 
 ## 🛠️ 4. Tech Stack
-- **Python**: Primary engineering language.
-- **yfinance**: Real-time financial data ingestion.
-- **Pandas & NumPy**: Data manipulation and feature matrix construction.
-- **Scikit-Learn**: Implementation of `LinearRegression`, `RandomForestRegressor`, and evaluation suite.
-- **Matplotlib & Seaborn**: High-resolution financial plotting.
-- **Joblib**: Model serialization and persistence.
+- **Python**: Core scripting and engine language.
+- **Pandas & NumPy**: High-performance data manipulation, type alignment, and matrix arithmetic.
+- **Scikit-Learn**: Machine learning utility including `Pipeline`, `ColumnTransformer`, `StandardScaler`, `OneHotEncoder`, `SimpleImputer`, `GridSearchCV`, and model estimators.
+- **Matplotlib & Seaborn**: Exporting high-resolution density plots, countplots, confusion matrices, and ROC curves.
+- **Joblib**: Model serialization and deployment packaging.
+- **Kagglehub**: Automated API data ingestion fallback.
 
 ---
 
 ## 🔄 5. Machine Learning Workflow
-This project follows a rigorous AI engineering lifecycle:
+The engineering workflow is divided into modular, automated blocks:
 
-1. **Ingestion & Fallback**: A dual-loading strategy attempts API retrieval first, with a local CSV fallback to ensure pipeline resilience.
-2. **Cleaning & Standardization**: Automating the flattening of MultiIndex headers and ensuring numeric consistency.
-3. **Feature Engineering (Time-Series Transformation)**:
-    - **Target Alignment**: Shifting the 'Close' price by -1 to create a supervised target.
-    - **Lagged Features**: Using historical windows to provide the model with context of recent trends.
-4. **Validation Strategy**: Implementing a split (65% Train / 15% Validation / 20% Test) that respects temporal ordering to prevent data leakage.
-5. **Architectural Comparison**: Training a baseline Linear model alongside a non-linear Random Forest to capture complex market dependencies.
-6. **Evaluation & Artifact Saving**: Computing RMSE and R² scores, followed by serializing the best model for deployment.
+```mermaid
+graph TD
+    A[Ingestion: Local / Kaggle / Kagglehub Fallback] --> B[Cleaning: Standardize Columns, Fix TotalCharges, Drop IDs]
+    B --> C[Visual EDA: Class Distribution, Tenure Distributions, Churn Rates]
+    C --> D[Data Splitting: Stratified 80/20 Train/Test Split]
+    D --> E[Preprocessing Pipeline: ColumnTransformer for Numeric & Categorical]
+    E --> F[Hyperparameter Optimization: 5-Fold Stratified GridSearchCV on F1]
+    F --> G[Comparative Evaluation: Compare Accuracy, F1, Recall, Precision, ROC-AUC]
+    G --> H[Model Assessment: Confusion Matrix, ROC curves, Feature Importances]
+    H --> I[Serialization: Export complete Pipeline via Joblib]
+    I --> J[Production Test: Simulate live API JSON payload prediction]
+```
+
+1. **Ingestion Strategy**: The loader dynamically searches the local directory and Kaggle folders before falling back to `kagglehub` direct API download.
+2. **Cleaning & Formatting**: Spaces are trimmed, missing data is imputed logically, and categorical variables are structured.
+3. **Exploratory Visual Analysis**: Imbalances and categorical correlation with churn rates are visualised.
+4. **Data Isolation**: Splits the data before transformers are fit to prevent data leakage.
+5. **Transformer Assembly**: Bundles median imputation, standard scaling, and one-hot encoding into a `ColumnTransformer` block.
+6. **Cross-Validated Tuning**: Stratified 5-fold grid search on hyperparameters, optimizing for F1-score.
+7. **Production Packing**: Exports the complete preprocessor + model pipeline into a single file.
 
 ---
 
 ## 🤖 6. Models Used
-### **Linear Regression (Baseline)**
-- **Why**: Used to establish a performance floor. It assumes a linear relationship between past prices and future value.
-- **Pros**: Extremely fast, interpretable, and less prone to overfitting on small datasets.
+### **Logistic Regression (Baseline)**
+- **Why**: Establish a baseline performance and provide linear coefficients.
+- **Pros**: Highly interpretable, fast to train, less prone to overfitting in low-feature regimes.
+- **Trade-offs**: Struggles to capture non-linear feature interactions (e.g., combinations of specific services and tenure lengths) unless manually engineered.
 
-### **Random Forest Regressor (Ensemble)**
-- **Why**: To capture non-linear relationships and interactions between features (e.g., volume spikes and price changes).
-- **Pros**: Robust to outliers and provides a more flexible decision boundary.
+### **Random Forest Classifier (Ensemble)**
+- **Why**: Capture non-linear decision thresholds.
+- **Pros**: Robust to outliers, handles multi-class and non-linear interactions automatically, provides Mean Decrease in Impurity (MDI) feature importances.
+- **Trade-offs**: Harder to interpret compared to linear weights, requires hyperparameter search to prevent tree overfitting.
 
 ---
 
 ## 📏 7. Evaluation Metrics
-We measure performance using industry-standard regression metrics:
-- **MAE (Mean Absolute Error)**: Average dollar amount the prediction deviates from the actual close.
-- **RMSE (Root Mean Squared Error)**: Penalizes larger prediction errors more heavily—critical for high-risk financial tasks.
-- **R² Score**: Indicates the proportion of variance explained by the model features.
+We assess model quality using five core metrics to address the class imbalance (26.5% churn rate):
+- **F1-Score (Primary Metric)**: The harmonic mean of Precision and Recall. Critical for optimizing retention campaigns since it balances catching churners and avoiding budget waste.
+- **Recall (Sensitivity)**: Catching as many churners as possible (minimizing False Negatives).
+- **Precision**: Ensuring that flagged customers are actual churners (minimizing False Positives to protect retention spend).
+- **ROC-AUC**: Evaluates classification threshold stability across all cutoff levels.
+- **Accuracy**: Overall correct classifications.
 
 ---
 
 ## 💡 8. Key Results & Findings
-- **Trend Dependency**: The models showed a high dependency on the immediate prior day's price, confirming the "Random Walk" nature of short-term movements.
-- **Model Comparison**: While Random Forest captures volatility better, the Linear model remains competitive in steady-state markets due to its lower variance.
-- **Generalization**: The pipeline effectively predicts the general direction of the stock, though high-frequency volatility remains a significant challenge for daily-interval models.
+- **Target Imbalance**: Churn occurs in 26.5% of accounts. Optimizing for raw accuracy alone leads to a trivial classifier.
+- **Model Performance**: 
+  - The tuned **Logistic Regression** and **Random Forest** models show competitive F1-scores around ~0.60 on the test set.
+  - **Logistic Regression** yields excellent interpretable coefficients, demonstrating that Month-to-Month contracts and Fiber Optic internet service are the strongest positive indicators of churn risk, whereas high tenure and long-term contracts strongly prevent churn.
+  - **Random Forest** captures non-linear billing interactions, ranking `tenure`, `TotalCharges`, and `MonthlyCharges` as the most crucial splits.
+- **Generalization**: The gap between cross-validation scores and test set metrics is minimal, confirming robust generalization and absence of overfitting due to stratified splitting and hyperparameter pruning.
 
 ---
 
 ## 🎨 9. Visualizations
-The project generates several key insights:
-- **Price History**: Visualizing the 5-year growth and volatility of the target ticker.
-- **Feature Correlation**: Identifying which metrics (e.g., Volume vs. Adj Close) influence the next day's movement.
-- **Actual vs. Predicted**: Line charts comparing model forecasts against real-world test data to visually assess drift.
+The Jupyter Notebook generates:
+- **Churn Imbalance Count**: Quantifies target ratio.
+- **Tenure & Monthly Charges KDE Plots**: Shows high density of churners in early months.
+- **Contract Churn Barplot**: Visualizes high churn rates in Month-to-month contracts.
+- **Correlation Heatmap**: Inspects multicollinearity between numeric features.
+- **Confusion Matrix**: Identifies True/False Positives and Negatives.
+- **ROC Curve**: Graphically compares model sensitivity across thresholds.
+- **Feature Importance / Coefficient Bars**: Lists top predictors of attrition.
 
 ---
 
 ## 🛡️ 10. Responsible AI & Ethics
-- **Financial Disclaimer**: This model is for **educational and research purposes only**. It is not intended for real-world financial advice or live trading.
-- **Model Limitations**: Stock markets are influenced by external "black swan" events (news, geopolitics) that historical price data alone cannot account for.
-- **Transparency**: The use of R² and RMSE provides a realistic view of model performance, highlighting that prediction is never 100% certain.
+- **Retention Ethics**: Predicting churn should be used for supportive customer service and discounts, not penalizing subscribers.
+- **Algorithmic Fairness**: Ensure retention campaigns do not discriminate based on age or demographics.
+- **Model Limitations**: The model relies on internal account data; external variables like competitor price drops or local network outages cannot be accounted for by the pipeline.
 
 ---
 
 ## 📂 11. Project Structure
 ```text
-Future Stock Prices Prediction/
-│── yfinance-stock-prediction.ipynb    # Full ML Pipeline
-│── stock_next_close_model.joblib      # Serialized Model
-│── README.md                          # Documentation
+predicting customer churn/
+│── predicting customer churn.ipynb  # Comprehensive ML Pipeline
+│── README.md                        # Project Documentation
+│── telco_churn_pipeline/            # Serialized Artifact Folder
+│   └── telco_churn_pipeline.joblib  # Complete Production Model Pipeline
 ```
 
 ---
 
 ## 🚀 12. Installation & Usage
-1.  **Install requirements**:
-   ```bash
-   pip install yfinance pandas scikit-learn matplotlib seaborn joblib
-   ```
-2. **Execute**: Open the Jupyter notebook and run all cells to fetch the latest data and train the model.
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/developer-aneeb/AI-ML-Internship-Projects-II.git
+    cd "AI-ML-Internship-Projects-II/predicting customer churn"
+    ```
+2. **Install Dependencies**:
+    ```bash
+    pip install numpy pandas matplotlib seaborn scikit-learn joblib kagglehub
+    ```
+3. **Execute**: Open `predicting customer churn.ipynb` in your Jupyter environment or Kaggle and run all cells.
 
 ---
 
 ## 🔮 13. Future Improvements
-- **Sentiment Analysis**: Integrating news headlines using NLP to adjust forecasts.
-- **Deep Learning**: Moving to LSTM (Long Short-Term Memory) networks for better sequential pattern recognition.
-- **Hyperparameter Tuning**: Using `GridSearchCV` to optimize the Random Forest forest depth and estimators.
+- **Class Balancers**: Integrate SMOTE or class weighting directly inside the scikit-learn pipeline to improve Recall.
+- **SHAP Integration**: Utilize SHAP (SHapley Additive exPlanations) for explainable AI on individual customer churn predictions.
+- **API Deployment**: Wrap the exported pipeline in a Flask or FastAPI microservice.
 
 ---
 
 ## 🏁 14. Conclusion
-This project successfully demonstrates a structured approach to financial time-series forecasting. By combining automated data ingestion with rigorous feature engineering and ensemble modeling, we have built a foundation for quantitative analysis. This workflow highlights the importance of data quality and validation strategy in the volatile world of finance.
+This project successfully establishes a production-ready ML pipeline for predicting customer churn. By enclosing the imputers, standardizers, encoders, and estimators in a single scikit-learn pipeline object, we have eliminated feature drift between training and deployment. This ensures that quantitative predictions are highly reliable, repeatable, and easily deployable for real-time retention targeting.
 
 ---
-**Developed during the AI/ML Internship at 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫𝐬𝐇𝐮𝐛 𝐂𝐨𝐫𝐩𝐨𝐫𝐚𝐭𝐢𝐨𝐧 .**
+**Developed during the AI/ML Internship at DevelopersHub Corporation.**
