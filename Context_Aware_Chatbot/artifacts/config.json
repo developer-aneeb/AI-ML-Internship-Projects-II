@@ -1,7 +1,0 @@
-{
-  "model_name": "google/flan-t5-small",
-  "top_k_context": 3,
-  "memory_turns": 4,
-  "max_new_tokens": 128,
-  "seed": 42
-}
