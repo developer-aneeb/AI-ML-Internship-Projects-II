@@ -19,11 +19,11 @@ The objective is to build a robust, context-aware conversational chatbot that:
 ---
 
 ## ⚙️ 2. Methodology / Approach
-The implementation follows an end-to-end Retrieval-Augmented Generation (RAG) architecture:
+The implementation follows an end-to-end Retrieval-Augmented Generation (RAG) architecture orchestrated with **LangChain**:
 - **Knowledge Base Construction**: A custom support-style corpus is created covering topics like billing, subscriptions, API limits, and app issues.
 - **Text Chunking & Vectorization**: The knowledge base is segmented into smaller, overlapping chunks. These chunks are embedded into a vector space using a `TfidfVectorizer` to create a lightweight and fast retrieval matrix.
-- **Retrieval Engine & Thresholding**: User queries are vectorized and compared against the document matrix using cosine similarity. The system applies a minimum similarity threshold (0.15) to prevent retrieving irrelevant data; if the threshold isn't met, the model automatically abstains from answering.
-- **Conversation Memory**: The chatbot maintains a rolling window of recent dialogue turns, feeding both the conversation history and the retrieved context into the model's prompt.
+- **Retrieval Engine & Thresholding**: User queries are vectorized and compared against the document matrix using cosine similarity via LangChain components. The system applies a minimum similarity threshold (0.15) to prevent retrieving irrelevant data; if the threshold isn't met, the model automatically abstains from answering.
+- **Conversation Memory**: The chatbot maintains a rolling window of recent dialogue turns utilizing LangChain's memory modules, seamlessly feeding both the conversation history and the retrieved context into the model's prompt.
 - **Generation & Citation**: A Hugging Face sequence-to-sequence model (`google/flan-t5-small`) acts as the generator. It follows strict instruction-tuned rules to base its answers purely on the provided context, and automatically appends source citations to the generated response for full transparency.
 - **Deployment Generation**: The pipeline serializes all required artifacts (vectorizer, chunk data, matrix) and automatically writes a `streamlit_app.py` script to allow immediate local deployment.
 
