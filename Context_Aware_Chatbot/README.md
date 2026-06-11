@@ -22,9 +22,9 @@ The objective is to build a robust, context-aware conversational chatbot that:
 The implementation follows an end-to-end Retrieval-Augmented Generation (RAG) architecture:
 - **Knowledge Base Construction**: A custom support-style corpus is created covering topics like billing, subscriptions, API limits, and app issues.
 - **Text Chunking & Vectorization**: The knowledge base is segmented into smaller, overlapping chunks. These chunks are embedded into a vector space using a `TfidfVectorizer` to create a lightweight and fast retrieval matrix.
-- **Retrieval Engine**: User queries are vectorized and compared against the document matrix using cosine similarity to fetch the top-k most relevant context chunks.
+- **Retrieval Engine & Thresholding**: User queries are vectorized and compared against the document matrix using cosine similarity. The system applies a minimum similarity threshold (0.15) to prevent retrieving irrelevant data; if the threshold isn't met, the model automatically abstains from answering.
 - **Conversation Memory**: The chatbot maintains a rolling window of recent dialogue turns, feeding both the conversation history and the retrieved context into the model's prompt.
-- **Generation**: A Hugging Face sequence-to-sequence model (`google/flan-t5-small`) acts as the generator. It follows strict instruction-tuned rules to base its answers purely on the provided context and prior chat turns.
+- **Generation & Citation**: A Hugging Face sequence-to-sequence model (`google/flan-t5-small`) acts as the generator. It follows strict instruction-tuned rules to base its answers purely on the provided context, and automatically appends source citations to the generated response for full transparency.
 - **Deployment Generation**: The pipeline serializes all required artifacts (vectorizer, chunk data, matrix) and automatically writes a `streamlit_app.py` script to allow immediate local deployment.
 
 ---
@@ -36,6 +36,7 @@ The implementation follows an end-to-end Retrieval-Augmented Generation (RAG) ar
   - *Assistant*: "A reset link is emailed to the registered address and expires after 30 minutes."
   - *User*: "What if I no longer have access to the email address?" *(Context-dependent)*
   - *Assistant*: "users must contact support with proof of ownership."
-- **Grounded Generation**: The model successfully extracted exact policy details (e.g., "Refunds are usually processed within 5 to 10 business days") without hallucinating external information.
+- **Grounded Generation & Anti-Hallucination**: The model successfully extracted exact policy details without hallucinating external information. By enforcing a similarity threshold, the chatbot safely abstains ("I could not find that information...") when questions fall outside its knowledge base.
+- **Source Transparency**: Every response dynamically appends exactly which knowledge base articles were referenced (e.g., "Sources: Password Reset and Login Lockouts"), ensuring trust and auditability in its answers.
 - **Self-Contained Portability**: By utilizing a synthesized custom corpus and lightweight models, the entire workflow is highly portable, reproducible, and executable natively on cloud environments like Kaggle without requiring external database dependencies.
 - **Instant Deployment**: The pipeline outputs a fully functional Streamlit application (`streamlit_app.py`), bridging the gap between model prototyping and interactive user testing.
