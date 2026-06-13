@@ -10,7 +10,6 @@
 
 ## 🎯 1. Objective of the task
 The objective of this project is to build a robust multimodal deep learning pipeline that predicts house prices. Unlike standard tabular regression models, this approach leverages **both structured tabular features** (e.g., location, numeric specs) and **unstructured visual data** (e.g., images of the house) to achieve richer property representations and more accurate valuations. The project also generates a deployable Streamlit application for interactive testing.
-
 ---
 
 ## ⚙️ 2. Methodology / Approach
