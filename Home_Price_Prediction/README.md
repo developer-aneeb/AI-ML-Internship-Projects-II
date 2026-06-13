@@ -27,7 +27,6 @@ The pipeline processes two distinct modalities using PyTorch and Scikit-Learn:
   - Learning rate drops are handled dynamically via a `ReduceLROnPlateau` scheduler alongside Early Stopping (`PATIENCE=2`).
   - A baseline Tabular-only model (`TabNet`) is trained side-by-side to quantify the value added by the image features.
 - **Deployment Generation**: The notebook saves the trained PyTorch weights (`.pt`), the Scikit-Learn preprocessors (`.joblib`), and automatically generates a functional `streamlit_app.py` script for local inference.
-
 ---
 
 ## 📊 3. Key results or observations
