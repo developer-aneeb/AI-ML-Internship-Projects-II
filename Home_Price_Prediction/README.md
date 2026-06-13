@@ -6,7 +6,6 @@
 [![Streamlit](https://img.shields.io/badge/Streamlit-Deployment-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
 
 > **"A deep learning architecture combining structured tabular features with image data to accurately predict housing prices."**
-
 ---
 
 ## 🎯 1. Objective of the task
