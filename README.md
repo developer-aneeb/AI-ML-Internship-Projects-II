@@ -32,7 +32,6 @@ Below is an overview of the projects included in this repository. Please explore
 **Objective**: Mitigate subscriber attrition in telecom services by predicting the likelihood of customer churn.
 - **Methodology**: Implements a robust, end-to-end `scikit-learn` pipeline. Features data preprocessing (ColumnTransformer), comparative modeling (Logistic Regression vs. Random Forests), and cross-validated hyperparameter optimization using GridSearchCV.
 - **Highlights**: Scikit-Learn Pipelines, Classification Imbalance, Joblib Serialization, Tabular Machine Learning.
-
 ---
 
 ## 🛠️ Technologies & Frameworks Utilized
