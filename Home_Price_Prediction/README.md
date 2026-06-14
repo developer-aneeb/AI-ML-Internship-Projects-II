@@ -14,7 +14,6 @@ The objective of this project is to build a robust multimodal deep learning pipe
 
 ## ⚙️ 2. Methodology / Approach
 The pipeline processes two distinct modalities using PyTorch and Scikit-Learn:
-
 - **Data Ingestion & Preprocessing**: 
   - **Tabular Data**: Processed using Scikit-Learn's `ColumnTransformer`. Missing values are imputed (median for numeric, most_frequent for categorical). Numeric features are standardized (`StandardScaler`), and categorical features are encoded (`OneHotEncoder`). The target variable (Price) is log-transformed (`log1p`) to handle heavy-tailed price distributions.
   - **Image Data**: Images are dynamically matched to their tabular records. They are resized to 224x224, normalized, and augmented (Random Horizontal Flips and Rotations) during training using `torchvision.transforms`.
