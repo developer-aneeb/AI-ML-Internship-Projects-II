@@ -1,6 +1,6 @@
 # 🚀 AI & Machine Learning Internship Projects II
 
-Welcome to the **Internship-II** portfolio repository! This directory contains a collection of diverse, production-ready machine learning and artificial intelligence projects. Each project demonstrates proficiency in modern deep learning architectures, natural language processing (NLP), computer vision, and end-to-end machine learning pipelines.
+Welcome to the **Internship-II** repository! This directory contains a collection of diverse, production-ready machine learning and artificial intelligence projects. Each project demonstrates proficiency in modern deep learning architectures, natural language processing (NLP), computer vision, and end-to-end machine learning pipelines.
 
 Below is an overview of the projects included in this repository. Please explore their respective directories for comprehensive code, Jupyter notebooks, and detailed documentation.
 
