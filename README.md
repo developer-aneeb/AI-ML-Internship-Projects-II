@@ -41,6 +41,5 @@ Across these projects, a variety of industry-standard tools and frameworks were 
 - **Machine Learning**: Scikit-Learn, Pandas, NumPy
 - **Deployment & UI**: Streamlit, Gradio
 - **Serialization**: Joblib, PyTorch weights (`.pt`)
-
 ---
 **Developed during the AI/ML Internship at DevelopersHub Corporation.**
