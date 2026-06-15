@@ -14,7 +14,6 @@
 Customer churn, or the rate at which subscribers discontinue their services, is one of the most critical business metrics in the telecommunications industry. The cost of acquiring a new customer is estimated to be 5 to 25 times higher than retaining an existing one. Predicting churn allows companies to run targeted retention campaigns (offering custom contract deals, discounts, or support interventions) to high-risk subscribers before they transition.
 
 This project implements an end-to-end machine learning pipeline that ingests raw subscriber profiles, cleanses inconsistencies, conducts exploratory visual analysis, trains optimized classifiers (Logistic Regression and Random Forests), and outputs a serialized production-ready model artifact.
-
 ---
 
 ## 🎯 2. Task Objective
