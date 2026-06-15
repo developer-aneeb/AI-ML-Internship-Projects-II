@@ -152,7 +152,6 @@ predicting_customer_churn/
     pip install numpy pandas matplotlib seaborn scikit-learn joblib kagglehub
     ```
 3. **Execute**: Open `predicting-customer-churn.ipynb` in your Jupyter environment or Kaggle and run all cells.
-
 ---
 
 ## 🔮 13. Future Improvements
